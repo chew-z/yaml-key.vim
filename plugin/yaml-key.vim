@@ -22,8 +22,8 @@ set cpo&vim
 function! s:FetchYamlKey()
     let ft = &filetype
     let result = ''
-python << EOF
-import vim
+python3 << EOF
+# import vim
 import re
 
 def execute():
@@ -48,7 +48,7 @@ def execute():
         if indent == 0:
             break
 
-    result_key = '.{}'.format('.'.join(reversed(keys))) if 0 < len(keys) else ''
+    result_key = '#-{}'.format('--'.join(reversed(keys))) if 0 < len(keys) else ''
     vim.command("let result='{}'".format(result_key))
 execute()
 EOF
@@ -58,7 +58,7 @@ endfunction
 function! s:ShowYamlKey()
   let result = s:FetchYamlKey()
   if g:yamlkey_and_yank
-    let @+ = result
+  "  let @+ = result
   endif
   echo result
 endfunction
@@ -67,7 +67,7 @@ nnoremap <Plug>ShowYamlKey :<C-u>call <SID>ShowYamlKey()<CR>
 nnoremap <Plug>FetchYamlKey :<C-u>call <SID>FetchYamlKey()<CR>
 
 if !exists("g:yamlkey_no_mappings") || !g:yamlkey_no_mappings
-  nmap <Leader>f <Plug>ShowYamlKey
+  nmap <Leader>yt <Plug>ShowYamlKey
 endif
 
 let &cpo = s:save_cpo
